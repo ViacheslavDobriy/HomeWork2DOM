@@ -11,9 +11,7 @@
 <body>
     <p class="dropdown">Привет :</p>
     <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-Dropdown button
-</button>
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Dropdown button </button>
         <div class="menu dropdown-menu" aria-labelledby="dropdownMenuButton">
             <a class="dropdown-item" href="#">Action</a>
             <a class="dropdown-item" href="#">Another action</a>
@@ -24,15 +22,79 @@ Dropdown button
         "use strict";
         // 1. Ко всем элементам, имеющим класс "dropdown-item" добавить еще один класс "super-dropdown", необходимо использовать методы forEach и querySelectorAll и свойство classList у элементов.
 
+        const dropdownItems = document.querySelectorAll('.dropdown-item');
+        console.log(dropdownItems);
+
+        function applyNewClass(arrayOfElems, string) {
+            arrayOfElems.forEach(element => {
+                element.classList.add(string);
+            });
+        }
+        applyNewClass(dropdownItems, 'super-dropdown');
+
         // 2. У элемента с классом btn необходимо убрать класс "btn-secondary", если он присутствует у этого элемента, либо добавить, если такого класса у элемента не было.
 
+        const buttonElem = document.querySelector('.btn');
+        const classToFind = 'btn-secondary';
+
+        /**
+         * Функция сначала организует массив с названиями классов элемента-аргумента функции, и если в массиве есть искомое название класса - удаляет его, а если его нет - добавляет.
+         * внутри функции есть переменная флаг(isFind) которая необходима, чтобы JS понял, что класс не был найден при выходе из forEach и выполнить добавление класса в элемент
+         **/
+        function findClass(elem, string) {
+            const listOfClassesElem = elem.className.split(' ');
+            let isFind = false;
+            listOfClassesElem.forEach(element => {
+                if (element == string) {
+                    elem.classList.remove(string);
+                    isFind = true;
+                }
+            });
+            if (!isFind) {
+                elem.classList.add(string);
+            }
+        }
+
+        findClass(buttonElem, classToFind);
+
         // 3. Необходимо удалить класс "dropdown-menu" у элемента, у которого присутствует класс "menu".
+
+        const menuElem = document.querySelector('.menu');
+        console.log(menuElem);
+        menuElem.classList.remove('dropdown-menu');
 
         // 4. Используя метод insertAdjacentHTML добавьте после div'a с классом "dropdown" следующую разметку:
         // `<a href="#">link</a>`
 
+        const divElems = document.querySelectorAll('div'); // массив элементов div
+
+        // Сначала запускаем forEach для прохода по каждому найденному элементу div
+        divElems.forEach(elem => {
+            const classListOfElem = elem.className.split(' ');
+            // Второй forEach для прохода по всем классам элемента div, чтобы найти div с классом 'dropdown'
+            classListOfElem.forEach(element => {
+                if (element == 'dropdown') {
+                    elem.insertAdjacentHTML('afterend', `<a href="#">link</a>`); // вставляем разметку после закрывающего тега div с классом 'dropdown'
+                }
+            });
+        });
+
         // 5. У элемента с id "dropdownMenuButton" замените id на "superDropdown".
+
+        const dropdownMenuButtonElem = document.getElementById('dropdownMenuButton').id = 'superDropdown';
 
         // 6. Добавьте атрибут data-dd со значением 3 элементу у которого существует атрибут "aria-labelledby" равный "dropdownMenuButton" используя dataset.
 
+        const findElem = document.querySelector('[aria-labelledby="dropdownMenuButton"]');
+        findElem.dataset.dd = '3';
+        console.log(findElem);
+
         // 7. Удалите атрибут type у элемента с классом "dropdown-toggle".
+
+        const toggleElem = document.querySelector('.dropdown-toggle');
+        toggleElem.removeAttribute('type');
+        console.log(toggleElem);
+    </script>
+</body>
+
+</html>
